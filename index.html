@@ -72,43 +72,45 @@
     <!-- TAB 1: INTERACTIVE VISUALIZER -->
     <section id="interactive-visualizer" class="tab-pane active">
       <div class="control-panel">
-        <div class="control-group">
-          <label for="algo-select">Algorithm:</label>
-          <select id="algo-select" class="select-dropdown">
-            <option value="dijkstra">Dijkstra's Algorithm (Weighted)</option>
-            <option value="astar" selected>A* Search (Manhattan / Euclidean Heuristic)</option>
-            <option value="bfs">Breadth-First Search (BFS - Unweighted)</option>
-            <option value="dfs">Depth-First Search (DFS - Exploration)</option>
-            <option value="greedy">Greedy Best-First Search</option>
-            <option value="bidirectional">Bidirectional BFS / Search</option>
-          </select>
-        </div>
+        <div class="control-row-grid">
+          <div class="control-group">
+            <label for="algo-select">Algorithm:</label>
+            <select id="algo-select" class="select-dropdown">
+              <option value="dijkstra">Dijkstra's Algorithm (Weighted)</option>
+              <option value="astar" selected>A* Search (Heuristic)</option>
+              <option value="bfs">BFS (Shortest Unweighted)</option>
+              <option value="dfs">DFS (Exploration)</option>
+              <option value="greedy">Greedy Best-First</option>
+              <option value="bidirectional">Bidirectional BFS</option>
+            </select>
+          </div>
 
-        <div class="control-group">
-          <label for="heuristic-select">Heuristic (A*):</label>
-          <select id="heuristic-select" class="select-dropdown">
-            <option value="manhattan">Manhattan Distance (Grid)</option>
-            <option value="euclidean">Euclidean Distance (Straight Line)</option>
-            <option value="octile">Octile Distance</option>
-          </select>
-        </div>
+          <div class="control-group">
+            <label for="heuristic-select">Heuristic (A*):</label>
+            <select id="heuristic-select" class="select-dropdown">
+              <option value="manhattan">Manhattan Distance (Grid)</option>
+              <option value="euclidean">Euclidean Distance (Straight Line)</option>
+              <option value="octile">Octile Distance</option>
+            </select>
+          </div>
 
-        <div class="control-group">
-          <label for="maze-select">Mazes & Patterns:</label>
-          <select id="maze-select" class="select-dropdown">
-            <option value="none">-- Select Maze Pattern --</option>
-            <option value="recursive-division">Recursive Maze Generation</option>
-            <option value="random-walls">Random Obstacles (30%)</option>
-            <option value="weighted-swamp">Weighted Terrain (Mud & Water)</option>
-            <option value="stair-pattern">Diagonal Stair Pattern</option>
-          </select>
-        </div>
+          <div class="control-group">
+            <label for="maze-select">Mazes & Patterns:</label>
+            <select id="maze-select" class="select-dropdown">
+              <option value="none">-- Select Maze Pattern --</option>
+              <option value="recursive-division">Recursive Maze Generation</option>
+              <option value="random-walls">Random Obstacles (30%)</option>
+              <option value="weighted-swamp">Weighted Terrain (Mud & Water)</option>
+              <option value="stair-pattern">Diagonal Stair Pattern</option>
+            </select>
+          </div>
 
-        <div class="control-group">
-          <label>Speed:</label>
-          <div class="speed-control">
-            <input type="range" id="speed-slider" min="1" max="50" value="25">
-            <span id="speed-label">Normal</span>
+          <div class="control-group">
+            <label>Speed:</label>
+            <div class="speed-control">
+              <input type="range" id="speed-slider" min="1" max="50" value="25">
+              <span id="speed-label">Normal</span>
+            </div>
           </div>
         </div>
 
@@ -118,7 +120,7 @@
             Visualize Path
           </button>
           <button id="btn-clear-path" class="btn btn-outline">Clear Path</button>
-          <button id="btn-clear-board" class="btn btn-outline danger">Reset Grid</button>
+          <button id="btn-clear-board" class="btn btn-outline danger">Reset</button>
         </div>
       </div>
 

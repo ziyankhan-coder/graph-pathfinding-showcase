@@ -2,12 +2,13 @@
    Graph & Shortest Path Benchmark Suite - Core Engine
    ========================================================================= */
 
-// 1. STATE & CONFIGURATION
-const GRID_ROWS = 20;
-const GRID_COLS = 45;
+// 1. STATE & CONFIGURATION - Responsive Grid Sizing
+const isMobile = window.innerWidth <= 768;
+const GRID_ROWS = isMobile ? 18 : 20;
+const GRID_COLS = isMobile ? 24 : 45;
 
-let startNode = { r: 10, c: 6 };
-let targetNode = { r: 10, c: 38 };
+let startNode = isMobile ? { r: 9, c: 3 } : { r: 10, c: 6 };
+let targetNode = isMobile ? { r: 9, c: 20 } : { r: 10, c: 38 };
 let isMouseDown = false;
 let currentDrawMode = 'wall'; // 'wall', 'weight', 'erase', 'drag-start', 'drag-target'
 let isRunning = false;
@@ -89,6 +90,8 @@ const ALGO_DETAILS = {
 // =========================================================================
 function initGrid() {
   gridContainer.innerHTML = '';
+  gridContainer.style.gridTemplateColumns = `repeat(${GRID_COLS}, ${isMobile ? '13px' : '24px'})`;
+  gridContainer.style.gridTemplateRows = `repeat(${GRID_ROWS}, ${isMobile ? '13px' : '24px'})`;
   boardState = [];
 
   for (let r = 0; r < GRID_ROWS; r++) {
@@ -109,10 +112,31 @@ function initGrid() {
 
       cell.addEventListener('mousedown', (e) => handleCellMouseDown(r, c, e));
       cell.addEventListener('mouseenter', () => handleCellMouseEnter(r, c));
+
+      // Mobile Touch Support
+      cell.addEventListener('touchstart', (e) => {
+        if (isRunning) return;
+        applyCellMode(r, c);
+      }, { passive: true });
+
       gridContainer.appendChild(cell);
     }
     boardState.push(row);
   }
+
+  // Handle continuous touch drag on mobile
+  gridContainer.addEventListener('touchmove', (e) => {
+    if (isRunning) return;
+    const touch = e.touches[0];
+    const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (targetElement && targetElement.classList.contains('grid-cell')) {
+      const r = parseInt(targetElement.dataset.r);
+      const c = parseInt(targetElement.dataset.c);
+      if (!isNaN(r) && !isNaN(c)) {
+        applyCellMode(r, c);
+      }
+    }
+  }, { passive: true });
 
   document.addEventListener('mouseup', () => {
     isMouseDown = false;
@@ -747,6 +771,12 @@ let raceSharedWalls = [];
 function initRaceGrids() {
   raceGrid1.innerHTML = '';
   raceGrid2.innerHTML = '';
+
+  const raceCellSize = isMobile ? '11px' : '20px';
+  raceGrid1.style.gridTemplateColumns = `repeat(${RACE_COLS}, ${raceCellSize})`;
+  raceGrid1.style.gridTemplateRows = `repeat(${RACE_ROWS}, ${raceCellSize})`;
+  raceGrid2.style.gridTemplateColumns = `repeat(${RACE_COLS}, ${raceCellSize})`;
+  raceGrid2.style.gridTemplateRows = `repeat(${RACE_ROWS}, ${raceCellSize})`;
 
   for (let r = 0; r < RACE_ROWS; r++) {
     for (let c = 0; c < RACE_COLS; c++) {
