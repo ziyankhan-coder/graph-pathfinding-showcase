@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graph & Shortest Path Algorithms Suite | Portfolio Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header / Hero Section -->
+  <header class="header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="logo-badge">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="6" cy="6" r="3"/>
+            <circle cx="18" cy="18" r="3"/>
+            <circle cx="18" cy="6" r="3"/>
+            <circle cx="6" cy="18" r="3"/>
+            <line x1="8.5" y1="7.5" x2="15.5" y2="16.5"/>
+            <line x1="8.5" y1="16.5" x2="15.5" y2="7.5"/>
+            <line x1="6" y1="9" x2="6" y2="15"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="logo-title">PathGraph<span>.Engine</span></h1>
+          <p class="logo-subtitle">Graph Theory & Shortest Path Benchmark Suite</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span class="client-badge">Client Presentation Ready</span>
+        <button class="btn btn-secondary" onclick="exportReport()">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Export Benchmark PDF/Report
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Navigation Tabs -->
+  <nav class="nav-bar">
+    <div class="nav-container">
+      <button class="nav-tab active" data-tab="interactive-visualizer">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Live Visualizer & Sandbox
+      </button>
+      <button class="nav-tab" data-tab="side-by-side">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="18" rx="1"/><rect x="13" y="3" width="8" height="18" rx="1"/></svg>
+        Side-by-Side Dual Race
+      </button>
+      <button class="nav-tab" data-tab="matrix-comparison">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Algorithm Comparison Matrix
+      </button>
+      <button class="nav-tab" data-tab="network-graph">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M6 9v6m12-6v6M9 6h6m-6 12h6"/></svg>
+        Node-Weighted Network Graph
+      </button>
+      <button class="nav-tab" data-tab="code-impl">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        Source Code & Engineering
+      </button>
+    </div>
+  </nav>
+
+  <!-- App Content Area -->
+  <main class="content-container">
+
+    <!-- TAB 1: INTERACTIVE VISUALIZER -->
+    <section id="interactive-visualizer" class="tab-pane active">
+      <div class="control-panel">
+        <div class="control-group">
+          <label for="algo-select">Algorithm:</label>
+          <select id="algo-select" class="select-dropdown">
+            <option value="dijkstra">Dijkstra's Algorithm (Weighted)</option>
+            <option value="astar" selected>A* Search (Manhattan / Euclidean Heuristic)</option>
+            <option value="bfs">Breadth-First Search (BFS - Unweighted)</option>
+            <option value="dfs">Depth-First Search (DFS - Exploration)</option>
+            <option value="greedy">Greedy Best-First Search</option>
+            <option value="bidirectional">Bidirectional BFS / Search</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="heuristic-select">Heuristic (A*):</label>
+          <select id="heuristic-select" class="select-dropdown">
+            <option value="manhattan">Manhattan Distance (Grid)</option>
+            <option value="euclidean">Euclidean Distance (Straight Line)</option>
+            <option value="octile">Octile Distance</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="maze-select">Mazes & Patterns:</label>
+          <select id="maze-select" class="select-dropdown">
+            <option value="none">-- Select Maze Pattern --</option>
+            <option value="recursive-division">Recursive Maze Generation</option>
+            <option value="random-walls">Random Obstacles (30%)</option>
+            <option value="weighted-swamp">Weighted Terrain (Mud & Water)</option>
+            <option value="stair-pattern">Diagonal Stair Pattern</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>Speed:</label>
+          <div class="speed-control">
+            <input type="range" id="speed-slider" min="1" max="50" value="25">
+            <span id="speed-label">Normal</span>
+          </div>
+        </div>
+
+        <div class="btn-group-main">
+          <button id="btn-start" class="btn btn-primary">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Visualize Path
+          </button>
+          <button id="btn-clear-path" class="btn btn-outline">Clear Path</button>
+          <button id="btn-clear-board" class="btn btn-outline danger">Reset Grid</button>
+        </div>
+      </div>
+
+      <!-- Quick Legend & Key Stats -->
+      <div class="stats-and-legend">
+        <div class="legend-items">
+          <div class="legend-item"><span class="legend-box start-box"></span> Start Node</div>
+          <div class="legend-item"><span class="legend-box end-box"></span> Target Node</div>
+          <div class="legend-item"><span class="legend-box wall-box"></span> Wall / Obstacle</div>
+          <div class="legend-item"><span class="legend-box weight-box"></span> Weighted Cell (Cost: 5)</div>
+          <div class="legend-item"><span class="legend-box visited-box"></span> Visited / Explored</div>
+          <div class="legend-item"><span class="legend-box path-box"></span> Optimal Shortest Path</div>
+        </div>
+
+        <div class="realtime-metrics">
+          <div class="metric-card">
+            <span class="metric-val" id="metric-status">Ready</span>
+            <span class="metric-lbl">Status</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-val" id="metric-nodes">0</span>
+            <span class="metric-lbl">Nodes Visited</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-val" id="metric-cost">0</span>
+            <span class="metric-lbl">Total Cost / Length</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-val" id="metric-time">0 ms</span>
+            <span class="metric-lbl">Execution Time</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Drawing Mode Toolbar -->
+      <div class="mode-toolbar">
+        <span class="mode-label">Mode: Click/Drag to</span>
+        <button class="mode-btn active" data-mode="wall">Draw Walls</button>
+        <button class="mode-btn" data-mode="weight">Place Heavy Mud (Weight 5)</button>
+        <button class="mode-btn" data-mode="erase">Erase</button>
+        <span class="helper-text">Tip: Drag the 🟢 Green (Start) or 🔴 Red (Target) pins directly anywhere on the grid!</span>
+      </div>
+
+      <!-- Interactive Grid Canvas -->
+      <div class="grid-wrapper">
+        <div id="grid-container" class="grid-board"></div>
+      </div>
+
+      <!-- Dynamic Algorithm Explanation Banner -->
+      <div class="algo-info-card" id="algo-info-card">
+        <h3 id="info-title">A* Search Algorithm</h3>
+        <p id="info-desc">A* is an informed search algorithm using both actual path cost \(g(n)\) and heuristic distance estimate \(h(n)\) via \(f(n) = g(n) + h(n)\). It guarantees the shortest path when heuristics are admissible.</p>
+        <div class="info-badges">
+          <span class="badge" id="info-complexity-time">Time: O((V + E) log V)</span>
+          <span class="badge" id="info-complexity-space">Space: O(V)</span>
+          <span class="badge success" id="info-optimality">Optimal: Yes</span>
+          <span class="badge" id="info-weighted">Handles Weights: Yes</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: SIDE-BY-SIDE DUAL RACE -->
+    <section id="side-by-side" class="tab-pane">
+      <div class="side-header">
+        <div>
+          <h2>Side-by-Side Algorithm Duel</h2>
+          <p>Real-time head-to-head race comparing search efficiency, visited node volume, and exact path cost under the same obstacle maze.</p>
+        </div>
+        <div class="side-controls">
+          <button id="race-start-btn" class="btn btn-primary">Start Simultaneous Race</button>
+          <button id="race-maze-btn" class="btn btn-secondary">Generate Shared Maze</button>
+          <button id="race-reset-btn" class="btn btn-outline">Reset Arenas</button>
+        </div>
+      </div>
+
+      <div class="dual-arenas">
+        <!-- Arena Left -->
+        <div class="arena-card">
+          <div class="arena-top">
+            <div class="arena-selector">
+              <label>Competitor A:</label>
+              <select id="race-algo-1" class="select-dropdown">
+                <option value="dijkstra">Dijkstra's Algorithm</option>
+                <option value="astar">A* Search</option>
+                <option value="bfs">Breadth-First Search (BFS)</option>
+                <option value="greedy">Greedy Best-First</option>
+              </select>
+            </div>
+            <div class="arena-badge" id="race-result-1">Ready</div>
+          </div>
+          <div class="arena-metrics">
+            <div>Visited: <strong id="race-nodes-1">0</strong></div>
+            <div>Cost: <strong id="race-cost-1">0</strong></div>
+            <div>Time: <strong id="race-time-1">0 ms</strong></div>
+          </div>
+          <div class="arena-grid-wrap">
+            <div id="grid-race-1" class="race-grid"></div>
+          </div>
+        </div>
+
+        <!-- Arena Right -->
+        <div class="arena-card">
+          <div class="arena-top">
+            <div class="arena-selector">
+              <label>Competitor B:</label>
+              <select id="race-algo-2" class="select-dropdown">
+                <option value="astar" selected>A* Search</option>
+                <option value="dijkstra">Dijkstra's Algorithm</option>
+                <option value="bfs">Breadth-First Search (BFS)</option>
+                <option value="greedy">Greedy Best-First</option>
+              </select>
+            </div>
+            <div class="arena-badge" id="race-result-2">Ready</div>
+          </div>
+          <div class="arena-metrics">
+            <div>Visited: <strong id="race-nodes-2">0</strong></div>
+            <div>Cost: <strong id="race-cost-2">0</strong></div>
+            <div>Time: <strong id="race-time-2">0 ms</strong></div>
+          </div>
+          <div class="arena-grid-wrap">
+            <div id="grid-race-2" class="race-grid"></div>
+          </div>
+        </div>
+      </div>
+      <div id="duel-verdict" class="duel-verdict-box">
+        Select competitors and click <strong>Start Simultaneous Race</strong> to analyze execution metrics.
+      </div>
+    </section>
+
+    <!-- TAB 3: MATRIX COMPARISON -->
+    <section id="matrix-comparison" class="tab-pane">
+      <div class="matrix-header">
+        <h2>Graph & Pathfinding Algorithm Master Matrix</h2>
+        <p>Comprehensive technical and commercial evaluation criteria for enterprise system architects and clients.</p>
+      </div>
+
+      <div class="table-responsive">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Algorithm</th>
+              <th>Guarantees Shortest Path?</th>
+              <th>Supports Weighted Edges?</th>
+              <th>Negative Weights?</th>
+              <th>Time Complexity</th>
+              <th>Space Complexity</th>
+              <th>Real-World Industry Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="highlight-row">
+              <td>
+                <div class="algo-name">A* Search (A-Star)</div>
+                <div class="algo-tag">Heuristic Driven</div>
+              </td>
+              <td><span class="tag success">Yes (Admissible H)</span></td>
+              <td><span class="tag success">Yes</span></td>
+              <td><span class="tag danger">No</span></td>
+              <td><code>O(E + V log V)</code></td>
+              <td><code>O(V)</code></td>
+              <td>GPS Navigation (Google Maps, Waze), Game AI, Robotics Motion Planning</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="algo-name">Dijkstra's Algorithm</div>
+                <div class="algo-tag">Uniform Cost</div>
+              </td>
+              <td><span class="tag success">Yes</span></td>
+              <td><span class="tag success">Yes</span></td>
+              <td><span class="tag danger">No</span></td>
+              <td><code>O((V + E) log V)</code></td>
+              <td><code>O(V)</code></td>
+              <td>Network routing protocols (OSPF, IS-IS), Telecommunication backbones</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="algo-name">Bellman-Ford</div>
+                <div class="algo-tag">Dynamic Programming</div>
+              </td>
+              <td><span class="tag success">Yes</span></td>
+              <td><span class="tag success">Yes</span></td>
+              <td><span class="tag success">Yes (Detects Negative Cycles)</span></td>
+              <td><code>O(V · E)</code></td>
+              <td><code>O(V)</code></td>
+              <td>Financial Arbitrage detection in FX/Crypto, RIP routing protocols</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="algo-name">Floyd-Warshall</div>
+                <div class="algo-tag">All-Pairs Shortest Path</div>
+              </td>
+              <td><span class="tag success">Yes</span></td>
+              <td><span class="tag success">Yes</span></td>
+              <td><span class="tag success">Yes</span></td>
+              <td><code>O(V³)</code></td>
+              <td><code>O(V²)</code></td>
+              <td>Urban transit matrix computation, flight connection hubs, dense network routing</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="algo-name">Breadth-First Search (BFS)</div>
+                <div class="algo-tag">Level-Order Traversal</div>
+              </td>
+              <td><span class="tag success">Yes (Unweighted only)</span></td>
+              <td><span class="tag danger">No</span></td>
+              <td><span class="tag danger">No</span></td>
+              <td><code>O(V + E)</code></td>
+              <td><code>O(V)</code></td>
+              <td>Social Network distance (Degrees of separation in LinkedIn/Facebook), Web Crawlers</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="algo-name">Greedy Best-First</div>
+                <div class="algo-tag">Pure Heuristic</div>
+              </td>
+              <td><span class="tag danger">No (Suboptimal)</span></td>
+              <td><span class="tag success">Yes</span></td>
+              <td><span class="tag danger">No</span></td>
+              <td><code>O(b^m)</code> worst</td>
+              <td><code>O(b^m)</code></td>
+              <td>Ultra-fast approximate real-time gaming NPCs where speed beats perfect optimality</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="algo-name">Bidirectional Search</div>
+                <div class="algo-tag">Dual Frontier</div>
+              </td>
+              <td><span class="tag success">Yes</span></td>
+              <td><span class="tag success">Yes</span></td>
+              <td><span class="tag danger">No</span></td>
+              <td><code>O(b^(d/2))</code></td>
+              <td><code>O(b^(d/2))</code></td>
+              <td>Rubik's cube solvers, massive graph peer-to-peer connection paths</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Comparison Insights Cards -->
+      <div class="insights-grid">
+        <div class="insight-card">
+          <h4>💡 When to choose A* over Dijkstra?</h4>
+          <p>Dijkstra expands uniformly in all directions like a water ripple. A* biases search towards the destination node using an estimated heuristic \(h(n)\). This drastically cuts explored nodes by 60–85% in geographical and spatial routing without losing optimality.</p>
+        </div>
+        <div class="insight-card">
+          <h4>⚠️ Why Negative Edge Detection Matters?</h4>
+          <p>Dijkstra fails or enters infinite loops with negative weights because it assumes adding an edge only increases path cost. Bellman-Ford correctly relaxes all edges \(V - 1\) times and flags negative cycles (crucial for finding currency exchange arbitrage loops).</p>
+        </div>
+        <div class="insight-card">
+          <h4>🌐 Single-Source vs All-Pairs</h4>
+          <p>Dijkstra/A* solve Single-Source Shortest Paths (SSSP). If a client needs distance between every airport pair or multi-stop logistics routes, Floyd-Warshall precomputes the entire \(N \times N\) matrix.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: NODE-WEIGHTED NETWORK GRAPH -->
+    <section id="network-graph" class="tab-pane">
+      <div class="network-header">
+        <div>
+          <h2>Arbitrary Weighted Node-Edge Graph & Bellman-Ford / Dijkstra Tester</h2>
+          <p>Interactive vector-canvas graph showing explicit vertex coordinates, weighted edges, negative weight handling, and step-by-step path relaxation.</p>
+        </div>
+        <div class="network-controls">
+          <button class="btn btn-primary" onclick="solveNetworkGraph('dijkstra')">Run Dijkstra</button>
+          <button class="btn btn-secondary" onclick="solveNetworkGraph('bellman-ford')">Run Bellman-Ford</button>
+          <button class="btn btn-outline" onclick="loadSampleGraph('delivery')">Logistics Map</button>
+          <button class="btn btn-outline" onclick="loadSampleGraph('arbitrage')">Currency Arbitrage (Neg Edges)</button>
+          <button class="btn btn-outline" onclick="resetNetworkGraph()">Clear</button>
+        </div>
+      </div>
+
+      <div class="network-workspace">
+        <div class="canvas-container">
+          <canvas id="graph-canvas" width="840" height="500"></canvas>
+          <div class="canvas-overlay-help">
+            Double click empty space to <strong>Add Node</strong> • Click node A then node B to <strong>Add Edge</strong>
+          </div>
+        </div>
+        <div class="network-sidebar">
+          <h3>Calculated Route & Distances</h3>
+          <div id="network-output" class="network-output-box">
+            Click <strong>Run Dijkstra</strong> or <strong>Run Bellman-Ford</strong> to view shortest path steps from Node <strong>A</strong> to destination.
+          </div>
+
+          <div class="node-table-wrap">
+            <h4>Vertex Distance Table</h4>
+            <table class="mini-table" id="dist-table">
+              <thead>
+                <tr>
+                  <th>Node</th>
+                  <th>Min Distance</th>
+                  <th>Predecessor</th>
+                </tr>
+              </thead>
+              <tbody id="dist-table-body">
+                <tr><td colspan="3">Awaiting execution...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: SOURCE CODE & ENGINEERING -->
+    <section id="code-impl" class="tab-pane">
+      <div class="code-header">
+        <div>
+          <h2>Production-Grade Implementations</h2>
+          <p>Clean, documented JavaScript/TypeScript & Python implementations with Min-Heap Priority Queues ready to drop into client backends or mobile apps.</p>
+        </div>
+        <div class="lang-pills">
+          <button class="code-tab-btn active" data-code="astar-js">A* (JavaScript ES6)</button>
+          <button class="code-tab-btn" data-code="dijkstra-py">Dijkstra (Python + heapq)</button>
+          <button class="code-tab-btn" data-code="bellman-py">Bellman-Ford (Arbitrage)</button>
+          <button class="code-tab-btn" data-code="floyd-js">Floyd-Warshall (Matrix)</button>
+        </div>
+      </div>
+
+      <div class="code-display-wrap">
+        <div class="code-header-bar">
+          <span id="code-filename">AStarPathfinder.js</span>
+          <button class="btn btn-copy" onclick="copyActiveCode()">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy Code
+          </button>
+        </div>
+        <pre><code id="code-block" class="code-content"></code></pre>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Client Pitch / Architecture Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div>
+        <h4>Enterprise Graph Computing Solutions</h4>
+        <p>Engineered for high-throughput spatial optimization, autonomous robotics, fleet routing & supply chain logistics.</p>
+      </div>
+      <div class="footer-metrics">
+        <div><span>Accuracy</span> 100% Guaranteed</div>
+        <div><span>Engine</span> Zero External Heavy Dependencies</div>
+        <div><span>License</span> Commercial / Client Ready</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
